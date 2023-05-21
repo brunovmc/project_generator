@@ -44,4 +44,4 @@ This will create two terminals, one for the client and one for the server.
 
 ## Credits
 
-This script was created by Bruno Vidigal.
+This script was created by Bruno Coriolano.
