@@ -65,12 +65,6 @@ EOF
         cat <<EOF >> index.js
 const mongoose = require('mongoose');
 EOF
-    elif [ "$db_type" == "postgresql" ]; then
-        cat <<EOF >> index.js
-// PostgreSQL model configuration code here
-EOF
-    fi
-
     cat <<EOF > example.js
 const { Schema } = require('mongoose');
 
@@ -87,6 +81,25 @@ const Example = new Schema({
 
 module.exports = Example;
 EOF
+    elif [ "$db_type" == "postgresql" ]; then
+        cat <<EOF >> example.js
+const pool = require('../index').pool;
+
+const ExampleModel = {
+    create: async (data) => {
+        // Implement create logic using the pool object
+        // Example: pool.query('INSERT INTO examples (column1, column2) VALUES ($1, $2)', [data.value1, data.value2]);
+    },
+    findById: async (id) => {
+        // Implement find by ID logic using the pool object
+        // Example: pool.query('SELECT * FROM examples WHERE id = $1', [id]);
+    },
+    // Define other model methods here
+};
+
+module.exports = ExampleModel;
+EOF
+    fi
 
     cd ..
     cd routes
@@ -177,5 +190,5 @@ create_readme
 echo "Initializing git..."
 git_init
 
-echo "Basic MERN stack file structure created successfully!"
+echo "File structure created successfully!"
 echo "Script executed in $(($SECONDS / 3600))h$((($SECONDS / 60) % 60))m$(($SECONDS % 60))s"
